@@ -10,7 +10,7 @@ User=YOUR_LOGIN_USER
 Group=YOUR_USERS_GROUP
 WorkingDirectory=SCRIPT_PATH
 ReadWritePaths=SCRIPT_PATH
-ExecStart=/sendLastBlockInfo.sh
+ExecStart=/SCRIPT_PATH/sendLastBlockInfo.sh
 ExecReload=/run/current-system/sw/bin/kill -1 -- $MAINPID
 ExecStop=/run/current-system/sw/bin/kill -- $MAINPID
 
