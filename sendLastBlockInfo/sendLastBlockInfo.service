@@ -1,4 +1,5 @@
 ### This service come from NixOs, you may need to adjust it for your Os
+### pooltool_sendblocks.nix
 
 [Unit]
 After=network.target
