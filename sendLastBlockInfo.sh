@@ -1,24 +1,27 @@
-#!/run/current-system/sw/bin/bash
+#!/bin/bash
 
-PATH=/run/current-system/sw/bin:/nix/var/nix/profiles/default/bin
+PATH="your $PATH Variable"
 
 # your pool id hash
-PoolID="342350284fd76ba9dbd7fd4ed579b2a2058d5ee558f8872b37817b28"
+PoolID=""
 
 # get this from your account profile page on pooltool website
-MyPooltoolApiKey="cd45c100-643a-43ee-b617-6a8bb9ef7721"
+MyPooltoolApiKey=""
 
-### Blockfrost APIs
-bfKey=jsLX87IunMrsi3BsHenNlKHecq4CxlhJ
+### Blockfrost API Key
+bfKey=""
 
-### Leader Logs Checker
-PLATFORM="SNAKE sendLastBlockInfo"
+### Send Tip to pooltool.io
+PLATFORM="POOL sendLastBlockInfo"
+### Where POOL is replaced with your pool ticker
 
 ### SSH Access to BP
-dir=/cardano/cnode/scripts
+dir=<your dir>
 bphost=$(cat $dir/.bphost)
 pswd=$(cat $dir/.passwd)
 port=$(cat $dir/.port)
+### create .bphost, .passwd, .port with your values
+
 
 while :
 do
@@ -26,10 +29,18 @@ do
         blockInfo=$(curl -s https://cardano-mainnet.blockfrost.io/api/v0/blocks/latest -X GET -H "project_id: $bfKey")
         latestParams=$(curl -s https://cardano-mainnet.blockfrost.io/api/v0/epochs/latest/parameters -X GET -H "project_id: $bfKey")
 
-        nodeVersion_out=$(/cardano/cnode/bin/cardano-node --version)
+        nodeVersion_out=$(cardano-node --version)
         nodeVersion=$(echo $nodeVersion_out | head -n 1 | cut -f 2 -d " ")
 
-        nodeTip=$(echo         ${pswd}    | ssh nodo@${bphost} -p ${port}  'sudo -u tecnode -S /cardano/cnode/scripts/check_tip2pooltool.sh 2>/dev/null')
+        ###  nodeTip: Get lastSlot, lastBlockHash, lastBlockHeight from BP Node:
+        ###  In this scenario "username" is the bp remote user which run command sudo to impersonate tecuser and run 
+        ###  the script check_tip2pooltool.sh which is just:
+        ###  export CARDANO_NODE_SOCKET_PATH="/your_path/node.socket" ; cardano-cli query tip --mainnet
+        ###  ensure you have ssh access with keys (root and password disabled) to your BP
+        ###  and that you have same home username on your servers
+        ###  you may need to adjust it to match your settings. 
+        
+        nodeTip=$(echo         ${pswd}    | ssh username@${bphost} -p ${port}  'sudo -u tecuser -S check_tip2pooltool.sh 2>/dev/null')
         lastSlot=$(echo        ${nodeTip} | jq -r .slot)
         lastBlockHash=$(echo   ${nodeTip} | jq -r .hash)
         lastBlockHeight=$(echo ${nodeTip} | jq -r .block)
@@ -52,6 +63,8 @@ do
         echo $RESPONSE1
         fi
 
+### I set this to just two seconds, I observed than a value higher than 5
+### can cause some temporary switch-off (green to red) of the block number on pooltool.io
 sleep 2
 
 done
