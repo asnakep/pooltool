@@ -8,9 +8,6 @@ PoolID=""
 # get this from your account profile page on pooltool website
 MyPooltoolApiKey=""
 
-### Blockfrost API Key
-bfKey=""
-
 ### Send Tip to pooltool.io
 PLATFORM="POOL sendLastBlockInfo"
 ### Where POOL is replaced with your pool ticker
@@ -26,8 +23,8 @@ port=$(cat $dir/.port)
 while :
 do
 
-        blockInfo=$(curl -s https://cardano-mainnet.blockfrost.io/api/v0/blocks/latest -X GET -H "project_id: $bfKey")
-        latestParams=$(curl -s https://cardano-mainnet.blockfrost.io/api/v0/epochs/latest/parameters -X GET -H "project_id: $bfKey")
+        lastblock=$(curl -s -X GET "https://api.koios.rest/api/v0/blocks"  -H "accept: application/json" | jq .[0].hash)
+        lastblockInfo=$(curl -s -X POST "https://api.koios.rest/api/v0/block_info"  -H "accept: application/json" -H "content-type: application/json" -d '{"_block_hashes":[ '${lastblock}' ]}')
 
         nodeVersion_out=$(cardano-node --version)
         nodeVersion=$(echo $nodeVersion_out | head -n 1 | cut -f 2 -d " ")
@@ -45,15 +42,14 @@ do
         lastBlockHash=$(echo   ${nodeTip} | jq -r .hash)
         lastBlockHeight=$(echo ${nodeTip} | jq -r .block)
 
-        blockTime=$(echo ${blockInfo}     | jq -r .time)
+        blockTime=$(echo ${lastblockInfo}     | jq -r .[].block_time)
         at=$(date -d @${blockTime} '+%Y-%m-%dT%H:%M:%S.%2NZ')
-        parentHash=$(echo ${blockInfo}    | jq -r .previous_block)
-        blockVrf=$(echo ${blockInfo}      | jq -r .block_vrf)
-        slotLeader=$(echo ${blockInfo}    | jq -r .slot_leader)
+        parentHash=$(echo ${lastblockInfo}    | jq -r .[].parent_hash)
+        blockVrf=$(echo   ${lastblockInfo}    | jq -r .[].vrf_key)
+        slotLeader=$(echo ${lastblockInfo}    | jq -r .[].pool)
 
-        protocolMajorVersion=$(echo ${latestParams} | jq -r .protocol_major_ver)
-        protocolMinorVersion=$(echo ${latestParams} | jq -r .protocol_minor_ver)
-
+        protocolMajorVersion=$(echo ${lastblockInfo} | jq -r .[].proto_major)
+        protocolMinorVersion=$(echo ${lastblockInfo} | jq -r .[].proto_minor)
 
         JSONBLOCK="$(jq -n --compact-output --arg MY_API_KEY "$MyPooltoolApiKey" --arg MY_POOL_ID "$PoolID" --arg VERSION "$nodeVersion" --arg AT "$at" --arg BLOCKNO "$lastBlockHeight" --arg SLOTNO "$lastSlot" --arg PLATFORM "$PLATFORM" --arg BLOCKHASH "$lastBlockHash" --arg PARENTHASH "$parentHash" --arg BLOCKVRF "$blockVrf" --arg SLOTLEADER "$slotLeader" --arg PROTOMAJORVER "$protocolMajorVersion" --arg PROTOMINORVER "$protocolMinorVersion" '{apiKey: $MY_API_KEY, poolId: $MY_POOL_ID, data: {blockTime: $AT, blockNo: $BLOCKNO, slotNo: $SLOTNO, blockHash: $BLOCKHASH, parentHash: $PARENTHASH, blockVrf: $BLOCKVRF, slotLeader: $SLOTLEADER, protocolMajorVersion: $PROTOMAJORVER, protocolMinorVersion: $PROTOMINORVER, version: $VERSION, platform: $PLATFORM}}')"
         echo "Packet Sent: $JSONBLOCK"
