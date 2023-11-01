@@ -1,0 +1,39 @@
+### This service come from NixOs, you may need to adjust it for your Os
+
+[Unit]
+After=network.target
+Description=pooltool_sendblocks
+
+[Service]
+Type=simple
+User=YOUR_LOGIN_USER
+Group=YOUR_USERS_GROUP
+WorkingDirectory=SCRIPT_PATH
+ReadWritePaths=SCRIPT_PATH
+ExecStart=/SCRIPT_PATH/sendLastBlockInfo.sh
+ExecReload=/run/current-system/sw/bin/kill -1 -- $MAINPID
+ExecStop=/run/current-system/sw/bin/kill -- $MAINPID
+
+CapabilityBoundingSet="~CAP_SYS_PTRACE", "~CAP_SYS_ADMIN"
+IOSchedulingClass=best-effort
+IOSchedulingPriority=0
+IPAccounting=yes
+IPAddressAllow=YOUR-SERVER-IP
+LockPersonality=1
+MemoryDenyWriteExecute=1
+NoNewPrivileges=1
+PrivateDevices=1
+PrivateTmp=1
+PrivateUsers=1
+ProtectControlGroups=1
+ProtectHostname=1
+ProtectKernelModules=yes
+ProtectKernelTunables=yes
+ProtectSystem=strict
+RemainAfterExit=no
+RemoveIPC=yes
+Restart=always
+RestrictNamespaces=1
+RestrictRealtime=1
+RestrictSUIDSGID=1
+SystemCallArchitectures=native
