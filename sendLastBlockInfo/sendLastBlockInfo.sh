@@ -1,6 +1,6 @@
 #!/bin/bash
 
-PATH="your $PATH Variable"
+PATH=$PATH
 
 # your pool id hash
 PoolID=""
