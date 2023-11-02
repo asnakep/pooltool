@@ -1,0 +1,23 @@
+{
+    "api_key": "pooltool api key",
+    "pools": [
+        {
+            "name": "TICKER",
+            "pool_id": "POOL_ID HASH"
+        }
+    ],
+    "saved_data": [
+        {
+            "epoch": 445,
+            "slots": [
+                107308799
+            ]
+        },
+        {
+            "epoch": 446,
+            "slots": [
+                
+            ]
+        }
+    ]
+}
