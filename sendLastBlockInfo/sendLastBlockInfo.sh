@@ -1,8 +1,8 @@
 #!/bin/bash
 
-### Replace with your binaries paths, on NixOs I need to indiacate this
+### Replace paths with your binaries paths for PATH variable
 ### otherwise systemd will not find the binaries used by this script.
-### you can also remove PATH from this script and add the variable in systemd service
+### you can also remove PATH variable from this script and add it in systemd service
 ### eg: Environment = "PATH=/run/current-system/sw/bin:/nix/var/nix/profiles/default/bin";
 PATH=/run/current-system/sw/bin:/nix/var/nix/profiles/default/bin
 
