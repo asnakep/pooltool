@@ -1,6 +1,10 @@
 #!/bin/bash
 
-PATH=$PATH
+### Replace with your binaries paths, on NixOs I need to indiacate this
+### otherwise systemd will not find the binaries used by this script.
+### you can also remove PATH from this script and add the variable in systemd service
+### eg: Environment = "PATH=/run/current-system/sw/bin:/nix/var/nix/profiles/default/bin";
+PATH=/run/current-system/sw/bin:/nix/var/nix/profiles/default/bin
 
 # your pool id hash
 PoolID=""
