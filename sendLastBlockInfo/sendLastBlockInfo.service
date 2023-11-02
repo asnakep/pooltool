@@ -12,6 +12,8 @@ Group=YOUR_USERS_GROUP
 WorkingDirectory=SCRIPT_PATH
 ReadWritePaths=SCRIPT_PATH
 ExecStart=/SCRIPT_PATH/sendLastBlockInfo.sh
+
+### Change your "kill" executable path
 ExecReload=/run/current-system/sw/bin/kill -1 -- $MAINPID
 ExecStop=/run/current-system/sw/bin/kill -- $MAINPID
 
