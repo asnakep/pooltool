@@ -33,8 +33,18 @@ tipData            = json.loads(response.decode('utf-8'))
 epoch_slot         = int(tipData[0]['epoch_slot'])
 epoch              = int(tipData[0]['epoch_no'])
 
-start_slot = 200
-end_slot   = 86000
+## Important!
+## The systemd service for this script checks everyday at 22:00UTC if a range of epoch_slots
+## is available to run this script that calculates pool's scheduled blocks,
+## and send the list of absolute_slots (your pool's slot leaders) to pooltool.io.
+## Slots can be sent to pooltool.io during the first 24hours of a new epoch.
+
+start_slot = 300   # first five minutes of a new epoch
+end_slot   = 85000 # 23minutes less than full 24hours value 86400 to leave a margin for its execution.
+
+## feel free to adjust start_slot and end_slot varables as per your preferences,
+## taking into account the related systemd service time settings.
+
 
 if epoch_slot >= start_slot and epoch_slot <= end_slot:
 
