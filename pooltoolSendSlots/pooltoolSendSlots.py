@@ -17,9 +17,11 @@ from datetime import datetime, timezone
 from sys import exit, platform
 
 ### Send Slots to pooltool.io
-VERSION  = "v1.0"
+### Change POOL_TICKER with your one.
 PLATFORM = "POOL_TICKER - pooltoolSendSlots.py"
 URL      = "https://api.pooltool.io/v0/sendslots"
+VERSION  = "v1.0"
+
 
 ### Set These Variables ###
 PoolIdBech    = ""
@@ -200,17 +202,17 @@ if epoch_slot >= start_slot and epoch_slot <= end_slot:
 
 
       ### write slots count and epoch luck to prometheus textfile metrics
-      ### comment below line if not needed
-      def write_prometheus_metric(file_path, metric_name, value):
-        try:
-          with open(file_path, 'w') as file:
-              file.write(f'{metric_name} {value}\n')
-        finally:
-              file.close()
+      ### uncomment below line if you intend to use it
+      #def write_prometheus_metric(file_path, metric_name, value):
+      #  try:
+      #    with open(file_path, 'w') as file:
+      #        file.write(f'{metric_name} {value}\n')
+      #  finally:
+      #        file.close()
 
 
       file_path = "/var/lib/prometheus-node-exporter-text-files/assignedblocks.prom"
-      metric_name = "snake_assignedblocks"
+      metric_name = "pool_assignedblocks"
       value = slotscount
 
       file_path = "/var/lib/prometheus-node-exporter-text-files/assignedluck.prom"
