@@ -3,6 +3,7 @@
 Needed to display assigned blocks and assigned performance in pooltool.io
 <br/>
 <br/>
+<br/>
 **pooltoolSendBlocks:** bash script to send blocks information (send tip) to pooltool.io.\
 <br/>
 Needed to show your stakepool liveness (green highlighted last block height of block producer)\
