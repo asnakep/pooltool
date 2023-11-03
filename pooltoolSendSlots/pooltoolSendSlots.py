@@ -16,6 +16,11 @@ import shutil
 from datetime import datetime, timezone
 from sys import exit, platform
 
+### Send Slots to pooltool.io
+VERSION  = "v1.0"
+PLATFORM = "POOL_TICKER - pooltoolSendSlots.py"
+URL      = "https://api.pooltool.io/v0/sendslots"
+
 ### Set These Variables ###
 PoolIdBech    = ""
 VrfKeyFile    = '/path_to/vrf.skey'
@@ -216,10 +221,6 @@ if epoch_slot >= start_slot and epoch_slot <= end_slot:
 
 
   ### Send Slots to pooltool.io
-  VERSION  = "v1.0"
-  PLATFORM = "SNAKE - getAndSendSlots2Pooltool.py"
-  URL      = "https://api.pooltool.io/v0/sendslots"
-
   def postPooltool(content):
       try:
           newHeaders = {'Content-type': 'application/json', 'Accept': 'Accept: application/json'}
