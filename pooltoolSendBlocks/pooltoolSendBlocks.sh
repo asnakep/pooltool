@@ -4,7 +4,7 @@
 ### otherwise systemd will not find the binaries used by this script.
 ### you can also remove PATH variable from this script and add it in systemd service
 ### eg: Environment = "PATH=/run/current-system/sw/bin:/nix/var/nix/profiles/default/bin";
-PATH=/run/current-system/sw/bin:/nix/var/nix/profiles/default/bin
+PATH=/your_binaries_paths1/
 
 # your pool id hash
 PoolID=""
@@ -22,7 +22,7 @@ bphost=$(cat $dir/.bphost)
 pswd=$(cat $dir/.passwd)
 port=$(cat $dir/.port)
 ### create .bphost, .passwd, .port with your values
-
+### make them read only for your user with chmod 400
 
 while :
 do
