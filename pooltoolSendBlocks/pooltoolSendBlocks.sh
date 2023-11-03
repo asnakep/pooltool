@@ -13,7 +13,7 @@ PoolID=""
 MyPooltoolApiKey=""
 
 ### Send Tip to pooltool.io
-PLATFORM="POOL sendLastBlockInfo"
+PLATFORM="POOL pooltoolSendBlocks.sh"
 ### Where POOL is replaced with your pool ticker
 
 ### SSH Access to BP
