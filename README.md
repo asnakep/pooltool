@@ -3,6 +3,7 @@ python script to get pool slot leaders and send them to pooltool.io.\
 <br/>
 Needed to display assigned blocks and assigned performance in pooltool.io
 <br/>
+<br/>
 **pooltoolSendBlocks:**\
 bash script to send blocks information (send tip) to pooltool.io.\
 <br/>
