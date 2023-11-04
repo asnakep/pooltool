@@ -1,6 +1,7 @@
 <br/>
 <br/>
-1. Install last python version.\
+1. Install last python version.
+<br/>
 2. Install needed python libraries with "pip install -r pip-requirements.txt".
 <br/>
 <br/>
@@ -50,7 +51,7 @@ Pooltool.io will receive your current scheduled slots quantity and the hash deri
 4. Edit **pooltoolSendSlots.py** and add needed variables.
 <br/>
 <br/>
-Install libsodium
+5. Install libsodium
 <br/>
 <br/>
-A systemd service is needed to run it, use pooltool_sendslots_daily_check.nix and pooltool_sendslots_daily_check.service files as reference for systemd service setup.
+6. A systemd service is needed to run it, use pooltool_sendslots_daily_check.nix and pooltool_sendslots_daily_check.service files as reference for systemd service setup.
