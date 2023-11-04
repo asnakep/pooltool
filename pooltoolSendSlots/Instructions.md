@@ -2,6 +2,7 @@
 
 **config.json instructions**
 <br/>
+<br/>
 The send slots to pooltool.io part, uses a configuration file, here named config.json
 <br/>
 which takes: pooltool api key, pool ticker, pool id in hash format, previous and current epoch with its N slots leaders (absolute slot),
