@@ -1,10 +1,10 @@
 <br/>
 <br/>
-Install last python version.
-Install needed python libraries with "pip install -r pip-requirements.txt".
+1. Install last python version.
+2. Install needed python libraries with "pip install -r pip-requirements.txt".
 <br/>
 <br/>
-**config.json instructions:**
+3.__config.json instructions:__
 <br/>
 <br/>
 The send slots to pooltool.io part of pooltoolSendSlots.py, uses a configuration file, here named config.json which takes: pooltool api key, pool ticker, pool id in hash format, previous and current epoch with its N slots leaders (absolute slot values).
