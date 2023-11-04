@@ -22,7 +22,6 @@ PLATFORM = "POOL_TICKER - pooltoolSendSlots.py"
 URL      = "https://api.pooltool.io/v0/sendslots"
 VERSION  = "v1.0"
 
-
 ### Set These Variables ###
 PoolIdBech    = ""
 VrfKeyFile    = '/path_to/vrf.skey'
