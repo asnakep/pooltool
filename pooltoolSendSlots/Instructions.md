@@ -42,12 +42,26 @@ Pooltool.io will receive your current scheduled slots quantity and the hash deri
     ]
 }
 <br/><br/>
-5. Edit **pooltoolSendSlots.py** and add needed variables:
+5. Edit pooltoolSendSlots.py and add needed variables:
 <br/><br/>
 line 21.  PLATFORM = "YOUR_POOL_TICKER - pooltoolSendSlots.py"
 line 27.  PoolIdBech    = ""
 line 28.  VrfKeyFile    = '/path_to/vrf.skey'
 <br/><br/>
-6. (Work in progress...) Install libsodium
+6. Clone libsodium from github.com/input-output-hk
 <br/><br/>
-7. (Work in progress...) A systemd service is needed to run it, use pooltool_sendslots_daily_check.nix and pooltool_sendslots_daily_check.service files as reference for systemd service setup.
+git clone https://github.com/input-output-hk/libsodium.git
+<br/><br/>
+cd libsodium
+<br/><br/>
+git checkout 1.0.16-519-g66f017f1
+<br/><br/>
+./autogen.sh
+<br/><br/>
+./configure
+<br/><br/>
+make
+<br/><br/>
+sudo make install
+<br/><br/><br/><br/>
+8. (Work in progress...) A systemd service is needed to run it, use pooltool_sendslots_daily_check.nix and pooltool_sendslots_daily_check.service files as reference for systemd service setup.
