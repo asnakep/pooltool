@@ -65,4 +65,7 @@ make
 <br/><br/>
 sudo make install
 <br/><br/>
-6. (Work in progress...) A systemd service is needed to run it, use pooltool_sendslots_daily_check.nix and pooltool_sendslots_daily_check.service files as reference for systemd service setup.
+6. A systemd service is needed to run pooltoolSendSlots.py using pooltoolSendSlots.sh.
+<br/><br/>
+Please pooltool_sendslots_daily_check.nix and pooltool_sendslots_daily_check.service files as reference for systemd service setup.
+
