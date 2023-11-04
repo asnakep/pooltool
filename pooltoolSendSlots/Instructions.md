@@ -44,10 +44,12 @@ Pooltool.io will receive your current scheduled slots quantity and the hash deri
 5. Edit pooltoolSendSlots.py and add needed variables:
 <br/><br/>
 line 21.  PLATFORM = "YOUR_POOL_TICKER - pooltoolSendSlots.py"
+<br/><br/>
 line 27.  PoolIdBech    = ""
+<br/><br/>
 line 28.  VrfKeyFile    = '/path_to/vrf.skey'
 <br/><br/>
-6. Clone libsodium from github.com/input-output-hk
+7. Clone libsodium from github.com/input-output-hk
 <br/><br/>
 git clone https://github.com/input-output-hk/libsodium.git
 <br/><br/>
