@@ -1,13 +1,12 @@
 **Work in progress...**
 
-Edit **config.json** once to add pool_id, pooltool api key, previous and current epoch, and your slots leader for previous and current epoch.
-
+**config.json instructions** 
 <br/>
 ** The send slots to pooltool.io part, uses a configuration file, here named config.json
 which takes: pooltool api key, pool ticker, pool id in hash format, previous and current epoch with its N slots leaders (absolute slot),
 at each execution (once during the first 24hours of new epoch), epochs and slots are rotated.
 You need to inform only once that section with your information.
-Pooltool.io will receive your current scheduled slots quantity and the hash deriveed from the concatenation of your previous epoch schedlued slots.
+Pooltool.io will receive your current scheduled slots quantity and the hash deriveed from the concatenation of your previous epoch schedlued slots. **
 
 **config.json**
 {
@@ -35,6 +34,8 @@ Pooltool.io will receive your current scheduled slots quantity and the hash deri
         }
     ]
 }
+
+<br/>
 <br/>
 Install python libraries with "pip install -t pip-requirements.txt".
 <br/>
