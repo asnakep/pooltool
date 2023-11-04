@@ -15,6 +15,7 @@ You need to inform only once prev/curr epochs/slots section with your informatio
 Pooltool.io will receive your current scheduled slots quantity and the hash derived from the concatenation of your previous epoch scheduled slots separated by comma.
 <br/><br/>
 **config.json template**
+<br/><br/>
 {
     "api_key": "pooltool api key",
     "pools": [
@@ -41,7 +42,7 @@ Pooltool.io will receive your current scheduled slots quantity and the hash deri
     ]
 }
 <br/><br/>
-4. Edit **pooltoolSendSlots.py** and add needed variables:
+5. Edit **pooltoolSendSlots.py** and add needed variables:
 <br/><br/>
 line 21.  PLATFORM = "YOUR_POOL_TICKER - pooltoolSendSlots.py"
 line 27.  PoolIdBech    = ""
