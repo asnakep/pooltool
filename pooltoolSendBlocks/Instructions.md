@@ -1,3 +1,5 @@
+**Work in progress...**
+
 Edit **pooltoolSendBlocks.sh** and add needed variables, please read the script and its comments.
 <br/>
 <br/>
