@@ -24,3 +24,4 @@ https://github.com/Josef3110/stakepool_python_tools/blob/main/scripts/sendslots.
 <br/>
 Needed to show your stakepool liveness (green highlighted last block height of block producer)\
 of your stakepool section and for pooltool.io network analysis.
+<br/> 
