@@ -8,11 +8,11 @@
 <br/><br/>
 The send slots to pooltool.io part of pooltoolSendSlots.py, uses a configuration file, here named config.json which takes: pooltool api key, pool ticker, pool id in hash format, previous and current epoch with its N slots leaders (absolute slot values).
 <br/><br/>
-At each execution (once during the first 24hours of new epoch), epochs and slots are rotated.
+At each execution (once during the first 24hours of new epoch), epochs and slots are rotated by updating config.json 
 <br/><br/>
-You need to inform only once epochs/slots section with your information.
+You need to inform only once prev/curr epochs/slots section with your information.
 <br/><br/>
-Pooltool.io will receive your current scheduled slots quantity and the hash deriveed from the concatenation of your previous epoch schedlued slots.
+Pooltool.io will receive your current scheduled slots quantity and the hash derived from the concatenation of your previous epoch scheduled slots separated by comma.
 <br/><br/>
 **config.json template**
 {
@@ -33,9 +33,9 @@ Pooltool.io will receive your current scheduled slots quantity and the hash deri
         {
             "epoch": 446,
             "slots": [
-                103302799,
-                102308799,
-                107304799
+                103308797,
+                104309799,
+                105310799
             ]
         }
     ]
