@@ -4,7 +4,7 @@
 2. Install needed python libraries with "pip install -r pip-requirements.txt".
 <br/>
 <br/>
-3.__config.json instructions:__
+3. config.json instructions:
 <br/>
 <br/>
 The send slots to pooltool.io part of pooltoolSendSlots.py, uses a configuration file, here named config.json which takes: pooltool api key, pool ticker, pool id in hash format, previous and current epoch with its N slots leaders (absolute slot values).
@@ -47,7 +47,7 @@ Pooltool.io will receive your current scheduled slots quantity and the hash deri
 }
 <br/>
 <br/>
-Edit **pooltoolSendSlots.py** and add needed variables.
+4. Edit **pooltoolSendSlots.py** and add needed variables.
 <br/>
 <br/>
 Install libsodium
