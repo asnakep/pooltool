@@ -55,7 +55,7 @@ git clone https://github.com/input-output-hk/libsodium.git
 <br/><br/>
 cd libsodium
 <br/><br/>
-git checkout 1.0.16-519-g66f017f1
+ensure you're in the branch iquerejeta/vrf_batchverify with git branch
 <br/><br/>
 ./autogen.sh
 <br/><br/>
