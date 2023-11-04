@@ -18,6 +18,8 @@ https://github.com/Josef3110/stakepool_python_tools/blob/main/scripts/sendslots.
 (Gets slots schedule using "cardano-cli query leadership-schedule" and send the slots to pooltool.io)
 <br/>
 <br/>
+<br/>
+<br/>
 **pooltoolSendBlocks:** bash script to send blocks information (send tip) to pooltool.io.\
 <br/>
 Needed to show your stakepool liveness (green highlighted last block height of block producer)\
