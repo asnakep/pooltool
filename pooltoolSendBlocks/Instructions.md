@@ -8,3 +8,9 @@ Node version is sent too.
 <br/><br/>
 A systemd service is needed to run it, use **pooltool_sendblocks.nix** and **pooltool_sendblocks.service** files as reference
 for systemd service setup.
+<br/><br/>
+Mandatory parameters for this service are:
+<br/><br/>
+RemainAfterExit= "no";
+<br/><br/>
+Restart = "always";
