@@ -3,6 +3,20 @@
 Needed to display assigned blocks and assigned performance in pooltool.io
 <br/>
 <br/>
+This work comes from the merge and reworking of:
+<br/>
+<br/>
+https://github.com/asnakep/YaLL
+<br/>
+<br/>
+(Interactive Slot Leader checker for previous, current and next epoch using Koios API)
+<br/>
+<br/>
+https://github.com/Josef3110/stakepool_python_tools/blob/main/scripts/sendslots.py 
+<br/>
+<br/>
+(Get slots schedule using "cardano-cli query leadership-schedule" and send the slots to pooltool.io)
+<br/>
 <br/>
 **pooltoolSendBlocks:** bash script to send blocks information (send tip) to pooltool.io.\
 <br/>
