@@ -69,9 +69,13 @@ sudo make install
 <br/><br/>
 Please use pooltool_sendslots_daily_check.nix and pooltool_sendslots_daily_check.service files as reference for systemd service setup.
 <br/><br/>
-Take into account that following parameters are mandatory for this service: RemainAfterExit=no, Restart=no
+Take into account that following parameters are mandatory for this service:
 <br/><br/>
-7. uncomment the lines 205-210 of pooltoolSendSlots.py if you want to use a function that creates a prometheus-text-file type metric for assigned slots quantity.
+RemainAfterExit=no
+<br/><br/>
+Restart=no
+<br/><br/>
+8. uncomment the lines 205-210 of pooltoolSendSlots.py if you want to use a function that creates a prometheus-text-file type metric for assigned slots quantity.
 <br/><br/>
 You'll need to configure prometheus-text-file exporter for this.
 <br/><br/>
