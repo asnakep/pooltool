@@ -1,5 +1,5 @@
 <br/>
-1. Install last python version.
+1. Install latest python version.
 <br/><br/>
 2. Install needed python libraries with "pip install -r pip-requirements.txt".
 <br/><br/>
