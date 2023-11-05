@@ -87,6 +87,13 @@ if epoch_slot >= start_slot and epoch_slot <= end_slot:
 
   #############################################
   ### Current Epoch Leader Logs Computation ###
+  
+  # https://github.com/papacarp/pooltool.io/blob/master/leaderLogs/leaderLogs.py
+  # leader logs proof of concept - all credit goes to
+  # @andrewwestberg of BCSH,
+  # @AC8998 (Antonio) of CSP
+  # @iiLap (Pal Dorogi) of UNDR
+  # for the algo extraction from cardano-node
 
   ### Opening vrf.skey file   ####
   with open(VrfKeyFile) as f:
@@ -215,7 +222,7 @@ if epoch_slot >= start_slot and epoch_slot <= end_slot:
       value = slotscount
 
       file_path = "/var/lib/prometheus-node-exporter-text-files/assignedluck.prom"
-      metric_name = "snake_assignedluck"
+      metric_name = "pool_assignedluck"
       value = epoch_luck
 
       write_prometheus_metric(file_path, metric_name,  value)
