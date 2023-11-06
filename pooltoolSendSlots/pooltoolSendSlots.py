@@ -223,11 +223,11 @@ if epoch_slot >= start_slot and epoch_slot <= end_slot:
       file_path = "/var/lib/prometheus-node-exporter-text-files/assignedblocks.prom"
       metric_name = "pool_assignedblocks"
       value = slotscount
+      write_prometheus_metric(file_path, metric_name,  value)
 
       file_path = "/var/lib/prometheus-node-exporter-text-files/assignedluck.prom"
       metric_name = "pool_assignedluck"
       value = epoch_luck
-
       write_prometheus_metric(file_path, metric_name,  value)
 
 
