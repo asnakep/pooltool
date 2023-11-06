@@ -349,5 +349,5 @@ if epoch_slot >= start_slot and epoch_slot <= end_slot:
 
 else:
 
-  print("Leader Slots can be sent in epoch_slot range [200..86000]")
+  print("Leader Slots can be sent in epoch_slot range [300..86000]")
   sys.exit()
