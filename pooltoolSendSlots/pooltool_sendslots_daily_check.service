@@ -2,7 +2,7 @@
 PartOf=pooltool_sendslots_daily_check.service
 
 [Timer]
-OnCalendar=*-*-* 23:00:00
+OnCalendar=*-*-* 00:00:00
 
 [Unit]
 After=network.target
