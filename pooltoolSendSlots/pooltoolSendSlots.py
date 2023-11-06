@@ -45,7 +45,7 @@ epoch              = int(tipData[0]['epoch_no'])
 ## and send the list of absolute_slots (your pool's slot leaders) to pooltool.io.
 ## Slots can be sent to pooltool.io during the first 24hours of a new epoch.
 
-start_slot = 3600   # after one hour of new epoch
+start_slot = 7200   # after two hours from new epoch start (23:45UTC)
 end_slot   = 85000 # 23minutes less than full 24hours value 86400 to leave a margin for its execution during the testing of the service.
 
 ## feel free to adjust start_slot and end_slot varables as per your preferences,
@@ -349,5 +349,5 @@ if epoch_slot >= start_slot and epoch_slot <= end_slot:
 
 else:
 
-  print("Leader Slots can be sent in epoch_slot range [3600..86000]")
+  print("Leader Slots can be sent in epoch_slot range [7200..86000]")
   sys.exit()
