@@ -6,7 +6,7 @@
       wantedBy = [ "timers.target" ];
       partOf = [ "pooltool_sendslots_daily_check.service" ];
       timerConfig = {
-       OnCalendar = "*-*-* 22:00:00";
+       OnCalendar = "*-*-* 23:00:00";
        };
 
  };
