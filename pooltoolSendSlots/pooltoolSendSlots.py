@@ -46,7 +46,7 @@ epoch              = int(tipData[0]['epoch_no'])
 ## Slots can be sent to pooltool.io during the first 24hours of a new epoch.
 
 start_slot = 300   # first five minutes of a new epoch
-end_slot   = 85000 # 23minutes less than full 24hours value 86400 to leave a margin for its execution.
+end_slot   = 85000 # 23minutes less than full 24hours value 86400 to leave a margin for its execution during the testing of the service.
 
 ## feel free to adjust start_slot and end_slot varables as per your preferences,
 ## taking into account the related systemd service time settings.
@@ -85,8 +85,8 @@ if epoch_slot >= start_slot and epoch_slot <= end_slot:
   epochLength          = int(networkGenesisData[0]['epochlength'])
   activeSlotCoeff      = float(networkGenesisData[0]['activeslotcoeff'])
 
-  #############################################
-  ### Current Epoch Leader Logs Computation ###
+  ###################################################
+  ### Start Current Epoch Leader Logs Computation ###
   
   # https://github.com/papacarp/pooltool.io/blob/master/leaderLogs/leaderLogs.py
   # leader logs proof of concept - all credit goes to
@@ -198,6 +198,9 @@ if epoch_slot >= start_slot and epoch_slot <= end_slot:
           c = math.log(1.0 - activeSlotCoeff)
           sigmaOfF = math.exp(-sigma * c)
 
+          ### End Current Epoch Leader Logs Computation ###
+          #################################################
+          
           if slotLeader:
               pass
               timestamp = datetime.fromtimestamp(slots + 1591566291)
