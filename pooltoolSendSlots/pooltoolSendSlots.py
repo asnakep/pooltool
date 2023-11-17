@@ -15,16 +15,16 @@ from os import system, path
 import shutil
 from datetime import datetime, timezone
 from sys import exit, platform
+import ast
 
 ### Send Slots to pooltool.io
-### Change POOL_TICKER with your one.
-PLATFORM = "POOL_TICKER - pooltoolSendSlots.py"
-URL      = "https://api.pooltool.io/v0/sendslots"
 VERSION  = "v1.0"
+PLATFORM = "SNAKE - pooltoolSendSlots.py"
+URL      = "https://api.pooltool.io/v0/sendslots"
 
 ### Set These Variables ###
-PoolIdBech    = ""
-VrfKeyFile    = '/path_to/vrf.skey'
+PoolIdBech    = "pool1xs34q2z06a46nk7hl48d27dj5gzc6hh9trugw2ehs9ajsevqffx"
+VrfKeyFile    = '/cardano/cnode/scripts/pooltool/vrf/vrf.skey'
 ### -------------------------------------------------------------- ###
 
 ### Koios Headers and BaseURL ###
@@ -39,18 +39,18 @@ tipData            = json.loads(response.decode('utf-8'))
 epoch_slot         = int(tipData[0]['epoch_slot'])
 epoch              = int(tipData[0]['epoch_no'])
 
+
 ## Important!
-## The systemd service for this script checks everyday at 22:00UTC if a range of epoch_slots
+## The systemd service for this script checks everyday at 01:00UTC if a range of epoch_slots
 ## is available to run this script that calculates pool's scheduled blocks,
 ## and send the list of absolute_slots (your pool's slot leaders) to pooltool.io.
 ## Slots can be sent to pooltool.io during the first 24hours of a new epoch.
 
-start_slot = 7200   # after two hours from new epoch start (23:45UTC)
-end_slot   = 85000 # 23minutes less than full 24hours value 86400 to leave a margin for its execution during the testing of the service.
+start_slot = 10800 # 3 hours after new epoch start (noticed that api.koios.rest can be unavailable or not fully available during first 2 hours)
+end_slot   = 85000 # 23 minutes less than full 24hours value 86400 to leave a margin for its execution during the testing of the service.
 
 ## feel free to adjust start_slot and end_slot varables as per your preferences,
 ## taking into account the related systemd service time settings.
-
 
 if epoch_slot >= start_slot and epoch_slot <= end_slot:
 
@@ -73,8 +73,7 @@ if epoch_slot >= start_slot and epoch_slot <= end_slot:
   poolInfoUrl          = koiosBaseUrl+"pool_info"
   poolPostData         = {"_pool_bech32_ids":[PoolIdBech]}
   poolinfo             = requests.post(poolInfoUrl, data=json.dumps(poolPostData))
-  poolinfo             = poolinfo.text
-  poolinfo             = json.loads(poolinfo)
+  poolinfo             = json.loads(poolinfo.text)
   sigma                = poolinfo[0]['sigma']
 
   ### Get Genesis Info Needed for Slots Calculation ###
@@ -85,9 +84,9 @@ if epoch_slot >= start_slot and epoch_slot <= end_slot:
   epochLength          = int(networkGenesisData[0]['epochlength'])
   activeSlotCoeff      = float(networkGenesisData[0]['activeslotcoeff'])
 
-  ###################################################
-  ### Start Current Epoch Leader Logs Computation ###
-  
+  #############################################
+  ### Current Epoch Leader Logs Computation ###
+
   # https://github.com/papacarp/pooltool.io/blob/master/leaderLogs/leaderLogs.py
   # leader logs proof of concept - all credit goes to
   # @andrewwestberg of BCSH,
@@ -109,8 +108,7 @@ if epoch_slot >= start_slot and epoch_slot <= end_slot:
   blockInfoUrl          = koiosBaseUrl+"block_info"
   postData              = {"_block_hashes":[firstShelleyBlockHash]}
   blockInfo             = requests.post(blockInfoUrl, data=json.dumps(postData))
-  blockInfo             = blockInfo.text
-  blockInfo             = json.loads(blockInfo)
+  blockInfo             = json.loads(blockInfo.text)
   firstSlot             = blockInfo[0]['abs_slot']
 
   ### calculate first slot of target epoch ###
@@ -168,7 +166,7 @@ if epoch_slot >= start_slot and epoch_slot <= end_slot:
           sys.exit()
 
   ### For Epochs inside Praos Time ###
-  if float(epoch) >= 364:
+  if epoch >= 364:
       def is_slot_leader(slots, activeSlotsCoeff, sigma, eta0, pool_vrf_skey):
           seed = mk_seed(slots, eta0)
           praosCanBeLeaderSignKeyVRFb = binascii.unhexlify(pool_vrf_skey)
@@ -183,6 +181,7 @@ if epoch_slot >= start_slot and epoch_slot <= end_slot:
           return q <= sigmaOfF
 
       slotscount=0
+      slots_list = []
 
       for slots in range(firstSlotOfEpoch,epochLength+firstSlotOfEpoch):
 
@@ -198,11 +197,7 @@ if epoch_slot >= start_slot and epoch_slot <= end_slot:
           c = math.log(1.0 - activeSlotCoeff)
           sigmaOfF = math.exp(-sigma * c)
 
-          ### End Current Epoch Leader Logs Computation ###
-          #################################################
-          
           if slotLeader:
-              pass
               timestamp = datetime.fromtimestamp(slots + 1591566291)
               slotscount+=1
 
@@ -210,28 +205,36 @@ if epoch_slot >= start_slot and epoch_slot <= end_slot:
               epoch_luck = int((100 * slotscount) / (blocksEpoch * pStake / nStake / 1000000))
 
 
+              if isinstance(slots, int):
+                 slots = str(slots)
+
+              parsed_list = [int(slot) for slot in slots.splitlines()]
+
+              for slot in parsed_list:
+                  slots_list.append(slot)
+
+
       ### write slots count and epoch luck to prometheus textfile metrics
-      ### uncomment below line if you intend to use it
-      #def write_prometheus_metric(file_path, metric_name, value):
-      #  try:
-      #    with open(file_path, 'w') as file:
-      #        file.write(f'{metric_name} {value}\n')
-      #  finally:
-      #        file.close()
+      ### comment below function if not needed
+      def write_prometheus_metric(file_path, metric_name, value):
+        try:
+          with open(file_path, 'w') as file:
+              file.write(f'{metric_name} {value}\n')
+        finally:
+              file.close()
+
+      file_path = "/var/lib/prometheus-node-exporter-text-files/assignedblocks.prom"
+      metric_name = "snake_assignedblocks"
+      value = slotscount
+      write_prometheus_metric(file_path, metric_name,  value)
+
+      file_path = "/var/lib/prometheus-node-exporter-text-files/assignedluck.prom"
+      metric_name = "snake_assignedluck"
+      value = epoch_luck
+      write_prometheus_metric(file_path, metric_name,  value)
 
 
-      # file_path = "/var/lib/prometheus-node-exporter-text-files/assignedblocks.prom"
-      # metric_name = "pool_assignedblocks"
-      # value = slotscount
-      # write_prometheus_metric(file_path, metric_name,  value)
-
-      # file_path = "/var/lib/prometheus-node-exporter-text-files/assignedluck.prom"
-      # metric_name = "pool_assignedluck"
-      # value = epoch_luck
-      # write_prometheus_metric(file_path, metric_name,  value)
-
-
-  ### Send Slots to pooltool.io
+  ### Run Send Slots to pooltool.io
   def postPooltool(content):
       try:
           newHeaders = {'Content-type': 'application/json', 'Accept': 'Accept: application/json'}
@@ -266,12 +269,6 @@ if epoch_slot >= start_slot and epoch_slot <= end_slot:
           print("Error writing config file: " + str(e))
           sys.exit(1)
       return 0
-
-  def parse_query(slots):
-      slot_list = []
-      value = int(slots)
-      slot_list.append(value)
-      return slot_list
 
 
   parser = argparse.ArgumentParser(description="sendslots to pooltool.io")
@@ -311,11 +308,12 @@ if epoch_slot >= start_slot and epoch_slot <= end_slot:
           else:
                   my_config['saved_data'][0]['slots'] = []
   if (epoch > epoch2):
-          slot_list = parse_query(slots)
+          slot_list = slots_list
           if print_debug:
                   print("DEBUG: current list of slots " + str(slot_list))
           my_config['saved_data'][1]['epoch'] = epoch
           my_config['saved_data'][1]['slots'] = slot_list
+
 
   writeconfig(args.config,my_config)
 
@@ -339,6 +337,7 @@ if epoch_slot >= start_slot and epoch_slot <= end_slot:
   message["hash"]      = str(hresult)
   message["prevSlots"] = json.dumps(my_config['saved_data'][0]['slots'],separators=(',', ':'))
 
+
   ### Send data to pooltool.io
   if print_debug:
           print(json.dumps(message))
@@ -346,8 +345,10 @@ if epoch_slot >= start_slot and epoch_slot <= end_slot:
   if print_debug:
           print("pooltool.io response: " + str(response.json()))
 
+  else:
 
-else:
-
-  print("Leader Slots can be sent in epoch_slot range [7200..86000]")
+  print()
+  print("Slot Leader Qty can be sent to pooltool.io only during the first 24 hours of a new epoch.")
+  print("Between epochSlot 10800 (3 hours after epoch start) and 85000 (23 minutes less than full 24hours value 86400).")
+  print("We left a time margin for service execution.")
   sys.exit()
