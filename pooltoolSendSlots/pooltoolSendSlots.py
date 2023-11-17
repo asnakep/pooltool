@@ -15,16 +15,16 @@ from os import system, path
 import shutil
 from datetime import datetime, timezone
 from sys import exit, platform
-import ast
 
 ### Send Slots to pooltool.io
 VERSION  = "v1.0"
+### replace with your pool ticker
 PLATFORM = "SNAKE - pooltoolSendSlots.py"
 URL      = "https://api.pooltool.io/v0/sendslots"
 
 ### Set These Variables ###
-PoolIdBech    = "pool1xs34q2z06a46nk7hl48d27dj5gzc6hh9trugw2ehs9ajsevqffx"
-VrfKeyFile    = '/cardano/cnode/scripts/pooltool/vrf/vrf.skey'
+PoolIdBech    = ""
+VrfKeyFile    = '<path>/vrf.skey'
 ### -------------------------------------------------------------- ###
 
 ### Koios Headers and BaseURL ###
