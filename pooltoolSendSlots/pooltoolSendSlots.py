@@ -28,6 +28,11 @@ VrfKeyFile    = '<path>/vrf.skey'
 ### -------------------------------------------------------------- ###
 
 ### Koios Headers and BaseURL ###
+# Uncomment this and comment koiosHeaders on line 36 if you use Koios Auth Token
+# koiosToken = "yourKoiosAuthToken"
+# koiosHeaders = { 'Accept': 'application/json', 'Authorization': f'Bearer {koiosToken}' }
+
+### Koios Headers and BaseURL ###
 koiosHeaders = {'content-type': 'application/json'}
 koiosBaseUrl = "https://api.koios.rest/api/v0/"
 
