@@ -56,7 +56,7 @@ do
       protocolMinorVersion=$(echo ${lastblockInfo} | jq -r .proto_minor)
 
 
-      JSONBLOCK="$(jq -n --compact-output --arg MY_API_KEY "$MyPooltoolApiKey" --arg MY_POOL_ID "$PoolID" --arg VERSION "$nodeVersion" --arg AT "$at" --arg BLOCKNO "$lastBlockHeight" --arg SLOTNO "$lastSlot" --arg PLATFORM "$PLATFORM" --arg BLOCKHASH "$lastBlockHash" --arg PARENTHASH "$parentHash" --arg BLOCKVRF "$blockVrf" --arg SLOTLEADER "$slotLeader" --arg PROTOMAJORVER "$protocolMajorVersion" --arg PROTOMINORVER "$protocolMinorVersion" '{apiKey: $MY_API_KEY, poolId: $MY_POOL_ID, data: {blockTime: $AT, blockNo: $BLOCKNO, slotNo: $SLOTNO, blockHash: $BLOCKHASH, parentHash: $PARENTHASH, blockVrf: $BLOCKVRF, slotLeader: $SLOTLEADER, protocolMajorVersion: $PROTOMAJORVER, protocolMinorVersion: $PROTOMINORVER, version: $VERSION, platform: $PLATFORM}}')"
+      JSONBLOCK="$(jq -n --compact-output --arg MY_API_KEY "$MyPooltoolApiKey" --arg MY_POOL_ID "$PoolID" --arg VERSION "$nodeVersion" --arg AT "$at" --arg BLOCKNO "$lastBlockHeight" --arg SLOTNO "$lastSlot" --arg PLATFORM "$PLATFORM" --arg BLOCKHASH "$blockHash" --arg PARENTHASH "$prevblockHash" --arg BLOCKVRF "$blockVrf" --arg SLOTLEADER "$slotLeader" --arg PROTOMAJORVER "$protocolMajorVersion" --arg PROTOMINORVER "$protocolMinorVersion" '{apiKey: $MY_API_KEY, poolId: $MY_POOL_ID, data: {blockTime: $AT, blockNo: $BLOCKNO, slotNo: $SLOTNO, blockHash: $BLOCKHASH, parentHash: $PARENTHASH, blockVrf: $BLOCKVRF, slotLeader: $SLOTLEADER, protocolMajorVersion: $PROTOMAJORVER, protocolMinorVersion: $PROTOMINORVER, version: $VERSION, platform: $PLATFORM}}')"
       echo "Packet Sent: $JSONBLOCK"
 
       if [ "${lastBlockHeight}" != "" ]; then
