@@ -29,10 +29,12 @@ blocksInfo="https://api.koios.rest/api/v0/blocks"
 while :
 do
 
-      lastblockInfo=$(curl -s -X GET $blocksInfo"?limit=2" -H "accept: application/json" -H "authorization: Bearer ${koiosToken}" | jq .[0])
-      prevblockHash=$(curl -s -X GET $blocksInfo"?limit=2" -H "accept: application/json" -H "authorization: Bearer ${koiosToken}" | jq -r .[1].hash)
+      blocks=$(curl -s -X GET $blocksInfo"?limit=2" -H "accept: application/json" -H "authorization: Bearer ${koiosToken}" | jq .)
+      lastBlockInfo=$(echo "${blocks}" | jq .[0])
+      prevblockHash=$(echo "${blocks}" | jq -r .[1].hash)
       nodeVersion_out=$(/cardano/cnode/bin/cardano-node --version)
       nodeVersion=$(echo $nodeVersion_out | head -n 1 | cut -f 2 -d " ")
+
 
       ###  nodeTip: Get lastSlot, lastBlockHash, lastBlockHeight from BP Node:
       ###  In this scenario "username" is the bp remote user which run command sudo to impersonate tecuser and run 
@@ -47,13 +49,13 @@ do
       blockHash=$(echo       ${nodeTip} | jq -r .hash)
       lastBlockHeight=$(echo ${nodeTip} | jq -r .block)
 
-      blockTime=$(echo ${lastblockInfo}     | jq -r .block_time)
-      at=$(date -d @${blockTime} '+%Y-%m-%dT%H:%M:%S.%2NZ')
-      blockVrf=$(echo   ${lastblockInfo}    | jq -r .vrf_key)
-      slotLeader=$(echo ${lastblockInfo}    | jq -r .pool)
+      blockTime=$(echo ${lastBlockInfo}     | jq -r .block_time)
+      at=$(date -d @$blockTime '+%Y-%m-%dT%H:%M:%S.%2NZ')
+      blockVrf=$(echo   ${lastBlockInfo}    | jq -r .vrf_key)
+      slotLeader=$(echo ${lastBlockInfo}    | jq -r .pool)
 
-      protocolMajorVersion=$(echo ${lastblockInfo} | jq -r .proto_major)
-      protocolMinorVersion=$(echo ${lastblockInfo} | jq -r .proto_minor)
+      protocolMajorVersion=$(echo ${lastBlockInfo} | jq -r .proto_major)
+      protocolMinorVersion=$(echo ${lastBlockInfo} | jq -r .proto_minor)
 
 
       JSONBLOCK="$(jq -n --compact-output --arg MY_API_KEY "$MyPooltoolApiKey" --arg MY_POOL_ID "$PoolID" --arg VERSION "$nodeVersion" --arg AT "$at" --arg BLOCKNO "$lastBlockHeight" --arg SLOTNO "$lastSlot" --arg PLATFORM "$PLATFORM" --arg BLOCKHASH "$blockHash" --arg PARENTHASH "$prevblockHash" --arg BLOCKVRF "$blockVrf" --arg SLOTLEADER "$slotLeader" --arg PROTOMAJORVER "$protocolMajorVersion" --arg PROTOMINORVER "$protocolMinorVersion" '{apiKey: $MY_API_KEY, poolId: $MY_POOL_ID, data: {blockTime: $AT, blockNo: $BLOCKNO, slotNo: $SLOTNO, blockHash: $BLOCKHASH, parentHash: $PARENTHASH, blockVrf: $BLOCKVRF, slotLeader: $SLOTLEADER, protocolMajorVersion: $PROTOMAJORVER, protocolMinorVersion: $PROTOMINORVER, version: $VERSION, platform: $PLATFORM}}')"
